@@ -1,0 +1,43 @@
+Give Duncan list of:
+
+ * Company name (string)
+ * URL (our service, string)
+ * lat / long (floats)
+ * Company type (string)
+
+
+JSON schema, data returned from search for companies near a University:
+
+{ 
+    "university" : <name>,
+    "long"       : <float>,
+    "lat"        : <float>,
+    "companies"  : 
+        [
+            { "name"     : <string>,
+              "url"      : <string>,
+              "lat"      : <float>,
+              "long"     : <float>,
+              "activity" : <string>,
+            }
+          ...
+        ]
+}
+
+Example:
+
+{ 
+    "university" : "The University of Wolverhampton",
+    "lat" : 52.5903892517,
+    "long" : -2.129650116,
+    "companies" : [ 
+        { 
+            "name"     : "\"A\" CERAMICS LIMITED",
+            "url"      : "http://resmatch.herokuapp.com/wolv/012334/",
+            "lat"      : 123.231231,
+            "long"     : -123.4567,
+            "activity" : "Dental practice activities",
+        }
+    ]
+}          
+
