@@ -1,0 +1,21 @@
+Background color
+
+Copy
+background-image: -webkit-gradient(
+	linear,
+	left top,
+	left bottom,
+	color-stop(0, #DDBC2F),
+	color-stop(0.45, #FFFFFF),
+	color-stop(1, #FFE14C),
+	color-stop(1, #FFFF6B),
+	color-stop(1, #FFFF8C),
+	color-stop(1, #FFFFA8),
+	color-stop(1, #CCFFE4),
+	color-stop(1, #FFFFF3)
+);
+background-image: -o-linear-gradient(bottom, #DDBC2F 0%, #FFFFFF 45%, #FFE14C 100%, #FFFF6B 100%, #FFFF8C 100%, #FFFFA8 100%, #CCFFE4 100%, #FFFFF3 100%);
+background-image: -moz-linear-gradient(bottom, #DDBC2F 0%, #FFFFFF 45%, #FFE14C 100%, #FFFF6B 100%, #FFFF8C 100%, #FFFFA8 100%, #CCFFE4 100%, #FFFFF3 100%);
+background-image: -webkit-linear-gradient(bottom, #DDBC2F 0%, #FFFFFF 45%, #FFE14C 100%, #FFFF6B 100%, #FFFF8C 100%, #FFFFA8 100%, #CCFFE4 100%, #FFFFF3 100%);
+background-image: -ms-linear-gradient(bottom, #DDBC2F 0%, #FFFFFF 45%, #FFE14C 100%, #FFFF6B 100%, #FFFF8C 100%, #FFFFA8 100%, #CCFFE4 100%, #FFFFF3 100%);
+background-image: linear-gradient(to bottom, #DDBC2F 0%, #FFFFFF 45%, #FFE14C 100%, #FFFF6B 100%, #FFFF8C 100%, #FFFFA8 100%, #CCFFE4 100%, #F
