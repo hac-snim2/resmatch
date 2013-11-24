@@ -10,7 +10,7 @@ _ORGS_FILE = 'data/orgs.json'
 
 _PC_FILE = 'data/postcodes.csv'
 
-MIN_DIST = 50
+MIN_DIST = 200
 
 
 def find_nearby_orgs(postcode, orgs, postcodes):
@@ -20,8 +20,7 @@ def find_nearby_orgs(postcode, orgs, postcodes):
     origin = postcode.replace(' ', '')
     for pc in orgs.keys():
         dist = distance_between_postcodes(origin, pc, postcodes) 
-        if dist is None: continue
-        if dist < MIN_DIST:
+        if (dist is None) or dist < MIN_DIST:
             nearby[pc] = orgs[pc]
     return nearby
 
@@ -71,6 +70,15 @@ def load_uni_data():
     return universities, uni_locations
 
 
+def get_latlong_from_postcode(pc, postcodes):
+    pc_stripped = pc.replace(' ', '')
+    try:
+        info = postcodes[pc_stripped]
+        return info['latitude'], info['longitude']
+    except KeyError:
+        return 0, 0
+
+
 def distance_between_postcodes(pc1, pc2, postcodes):
    try:
         e1 = postcodes[pc1.replace(' ', '')]['eastings']
@@ -78,5 +86,5 @@ def distance_between_postcodes(pc1, pc2, postcodes):
         e2 = postcodes[pc2.replace(' ', '')]['eastings']
         n2 = postcodes[pc2.replace(' ', '')]['northings']
         return sqrt(pow((e2 - e1), 2) + pow((n2 - n1), 2))
-    except KeyError:
-        return None
+   except KeyError:
+       return None

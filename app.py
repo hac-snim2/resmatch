@@ -20,7 +20,10 @@ app.secret_key = os.urandom(24) # Needed for sessions.
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        best_guess = difflib.get_close_matches(request.form['university'], universities)[0]
+        close_matches = difflib.get_close_matches(request.form['university'], universities)
+        if len(close_matches) == 0:
+            return redirect(url_for('index'))
+        best_guess = close_matches[0]
         flash('Searching for companies nere %s. Please be patient....' % best_guess)
         session['university'] = best_guess
         return redirect(url_for('results'))
@@ -51,18 +54,37 @@ def results():
 </body>
 </html>
 """
-    print 'DEBUG %s' % uni
     postcode = uni_locations[uni]['postcode']
     nearby = data.find_nearby_orgs(postcode, orgs, postcodes)
-    for key in nearby: print nearby[key] + '\n\n'
     results = {}
-    #    results['university'] = uni
-#    results['long'] = uni_locations[uni]['long']
-#    results['lat'] = uni_locations[uni]['lat']
-#    results['postcode'] = uni_locations[uni]['postcode']
-#    companies = []
-#    for co in nearby:
-#        org = {}
-#        org['name'] = co[
-#    return 
-    return 'You are searching for companies around %s\n' % session['university']
+    results['university'] = uni
+    results['long'] = uni_locations[uni]['long']
+    results['lat'] = uni_locations[uni]['lat']
+    results['postcode'] = uni_locations[uni]['postcode']
+    companies = []
+    for key in nearby:
+        org = {}
+        org['name'] = nearby[key][0][u'name']
+        org['url'] = nearby[key][0][u'@attributes'][u'url']
+        org['postcode'] = nearby[key][0][u'address'][u'postCode']
+        lat, lng = data.get_latlong_from_postcode(org['postcode'], postcodes)
+        org['lat'] = lat
+        org['long'] = lng
+        org['activity'] = '' # TODO - get this from somewhere
+        companies.append(org)
+    results['companies'] = companies
+#    with open('justincase.json', 'w') as f:
+#        json.dump(results, f)
+    return """<html>
+<head><title>Results for %s</title></head>
+<body>
+  <h1>Organisations near %s with prior research funding</h1>
+  <p>
+  <pre>
+%s
+  </pre>
+  </p>
+</body>
+</html>
+""" % (uni, uni, json.dumps(results))
+
