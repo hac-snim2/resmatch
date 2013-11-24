@@ -2,11 +2,32 @@ import csv
 import json
 import requests
 
-from math import radians, cos, sin, asin, sqrt
+from math import sqrt
 
 _PC_FINDER = 'http://uk-postcodes.com/'
 
 _UNI_FILE = 'data/uk-uni-locations.csv'
+
+_ORGS_FILE = 'data/orgs.json'
+
+MIN_DIST = 50
+
+
+def find_nearby_orgs(postcode, orgs):
+    """TODO: Maybe better to hold the orgs data here?
+    """
+    nearby = {}
+    for pc in orgs.keys():
+        if distance_between_postcodes(postcode, pc) < MIN_DIST:
+            nearby[pc] = orgs[pc]
+    return nearby
+
+
+def load_orgs_data():
+    with open(_UNI_FILE, 'r') as f:
+        data = json.load(f)
+        return data
+    return dict()
 
 
 def load_uni_data():
