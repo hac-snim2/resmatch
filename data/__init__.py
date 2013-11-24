@@ -69,14 +69,16 @@ def distance_between_postcodes(pc1, pc2):
     url = _PC_FINDER + '/postcode/' + postcode1 + '.json'
     r1 = requests.get(url)
     if r1.status_code != 200: return 0
-    content1 = r1.content
+    content1 = json.loads(r1.content)
     # Grab data for pc2
     postcode2 = pc2.replace(' ', '')
     url = _PC_FINDER + '/postcode/' + postcode2 + '.json'
     r2 = requests.get(url)
     if r2.status_code != 200: return 0
-    content2 = r2.content
+    content2 = json.loads(r2.content)
     # Get distance
-    e1, n1 = content1['geo']['easting'], content1['geo']['northing']
-    e2, n2 = content2['geo']['easting'], content2['geo']['northing']
-    return math.sqrt(pow((e2 - e1), 2) + pow((n2 - n1), 2))
+    e1 = int(content1['geo']['easting'])
+    n1 = int(content1['geo']['northing'])
+    e2 = int(content2['geo']['easting'])
+    n2 = int(content2['geo']['northing'])
+    return sqrt(pow((e2 - e1), 2) + pow((n2 - n1), 2))
