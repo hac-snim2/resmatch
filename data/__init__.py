@@ -17,14 +17,15 @@ def find_nearby_orgs(postcode, orgs):
     """TODO: Maybe better to hold the orgs data here?
     """
     nearby = {}
+    origin = postcode.replace(' ', '')
     for pc in orgs.keys():
-        if distance_between_postcodes(postcode, pc) < MIN_DIST:
+        if distance_between_postcodes(origin, pc) < MIN_DIST:
             nearby[pc] = orgs[pc]
     return nearby
 
 
 def load_orgs_data():
-    with open(_UNI_FILE, 'r') as f:
+    with open(_ORGS_FILE, 'r') as f:
         data = json.load(f)
         return data
     return dict()
